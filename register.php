@@ -3,17 +3,11 @@
 require_once "config.php";
  
 // Define variables and initialize with empty values
-$username = $password = $confirm_password = $firstname = $lastname = "";
-$username_err = $password_err = $confirm_password_err = $firstname_err = $lastname_err = "";
+$firstname = $lastname = $username = $password = $confirm_password = "";
+$firstname_err = $lastname_err = $username_err = $password_err = $confirm_password_err = "";
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-
-
-
-
-
-    print(var_dump($_POST));
  
     // Validate username
     if(empty(trim($_POST["username"]))){
@@ -34,10 +28,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 // store result
                 $stmt->store_result();
                 
-                
+                if($stmt->num_rows == 1){
                     $username_err = "This username is already taken.";
                 } else{
-                    
+                    $username = trim($_POST["username"]);
                 }
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
@@ -49,69 +43,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     // Validate firstname
     if(empty(trim($_POST["firstname"]))){
-        $firstname_err = "Please enter a firstname.";
+        $firstname_err = "Please enter a firstname.";     
+    } elseif(strlen(trim($_POST["firstname"])) > 255){
+        $firstname_err = "firstname can't be more than 255 characters.";
     } else{
-        // Prepare a select statement
-        $sql = "SELECT UserAccountid FROM UserAccounts WHERE firstname = ?";
-        
-        if($stmt = $mysqli->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("s", $param_firstname);
-            
-            // Set parameters
-            $param_firstname = trim($_POST["firstname"]);
-            
-            // Attempt to execute the prepared statement
-            if($stmt->execute()){
-                // store result
-                $stmt->store_result();
-                
-                if($stmt->num_rows == 1){
-                    $firstname_err = "This firstname is already taken.";
-                } else{
-                    $firstname = trim($_POST["firstname"]);
-                }
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-
-            // Close statement
-            $stmt->close();
-        }
+        $firstname = trim($_POST["firstname"]);
     }
+
     // Validate lastname
     if(empty(trim($_POST["lastname"]))){
-        $lastname_err = "Please enter a lastname.";
+        $lastname_err = "Please enter a lastname.";     
+    } elseif(strlen(trim($_POST["lastname"])) > 255){
+        $lastname_err = "lastname can't be more than 255 characters.";
     } else{
-        // Prepare a select statement
-        $sql = "SELECT UserAccountid FROM UserAccounts WHERE lastname = ?";
-        
-        if($stmt = $mysqli->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("s", $param_lastname);
-            
-            // Set parameters
-            $param_lastname = trim($_POST["lastname"]);
-            
-            // Attempt to execute the prepared statement
-            if($stmt->execute()){
-                // store result
-                $stmt->store_result();
-                
-                if($stmt->num_rows == 1){
-                    $lastname_err = "This lastname is already taken.";
-                } else{
-                    $lastname = trim($_POST["lastname"]);
-                }
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-
-            // Close statement
-            $stmt->close();
-        }
+        $lastname = trim($_POST["lastname"]);
     }
-
     
     // Validate password
     if(empty(trim($_POST["password"]))){
@@ -133,26 +79,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     
     // Check input errors before inserting in database
-    if(empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($firstname_err) && empty($lastname_err)){
+    if(empty($firstname_err) && empty($lastname_err) && empty($username_err) && empty($password_err) && empty($confirm_password_err)){
         
         // Prepare an insert statement
-        $sql = "INSERT INTO UserAccounts (username, password, firstname, lastname ) VALUES (?, ?, ?, ?)";
-
-        print("Register.php 141: " . $username . $password. $firstname. $lastname );
-
-        // Set parameters
-        $param_username = $username;
-        $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-        $param_firstname = $firstname;
-        $param_lastname = $lastname;
-        if ($debug){
-            print(var_dump($sql));
-        }
+        $sql = "INSERT INTO UserAccounts (firstname, lastname, Username, Password) VALUES (?, ?, ?, ?)";
+         
         if($stmt = $mysqli->prepare($sql)){
             // Bind variables to the prepared statement as parameters
-            $stmt->bind_param("ssss", $param_username, $param_password, $param_firstname, $param_lastname);
+            $stmt->bind_param("ssss", $param_firstname, $param_lastname, $param_username, $param_password);
             
-            print(var_dump($stmt));
+            // Set parameters
+            $param_firstname = $firstname;
+            $param_lastname = $lastname;
+            $param_username = $username;
+            $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
             
             // Attempt to execute the prepared statement
             if($stmt->execute()){
@@ -194,7 +134,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <span class="invalid-feedback"><?php echo $firstname_err; ?></span>
             </div>
             <div class="form-group">
-                <label>Lastname</label>
+                <label>lastname</label>
                 <input type="text" name="lastname" class="form-control <?php echo (!empty($lastname_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $lastname; ?>">
                 <span class="invalid-feedback"><?php echo $lastname_err; ?></span>
             </div>
@@ -213,7 +153,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <input type="password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>">
                 <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
             </div>
-            
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Submit">
                 <input type="reset" class="btn btn-secondary ml-2" value="Reset">
