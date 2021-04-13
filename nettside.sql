@@ -11,16 +11,3 @@ CREATE TABLE IF NOT EXISTS `UserAccounts` (
   UNIQUE KEY `usernameuk` (`username`)
 );
 
-CREATE TABLE IF NOT EXISTS `Roles` (
-  `RoleID` int(255) NOT NULL AUTO_INCREMENT,
-  `Description` varchar(255),
-  PRIMARY KEY (`RoleID`)
-);
-
-CREATE TABLE IF NOT EXISTS `UserRoles` (
-  `RoleID` int(255) NOT NULL AUTO_INCREMENT,
-  `UserAccountid` int(255) NOT NULL,
-  FOREIGN KEY (`UserAccountid`) REFERENCES `UserAccounts` (`UserAccountid`),
-  FOREIGN KEY (`RoleID`) REFERENCES `Roles`(`RoleID`)
-);
-
