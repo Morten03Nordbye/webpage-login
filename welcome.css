@@ -1,0 +1,138 @@
+html, body {
+	height: 100%;
+}
+
+body {
+	margin: 0px;
+	padding: 0px;
+    background-image: url(images/pic05.jpg);
+    background-size: auto;
+	font-family: 'Chivo', sans-serif;
+	font-size: 12pt;
+	font-weight: 300;
+	color: #363636;
+}
+/*********************************************************************************/
+/* Logo                                                                          */
+/*********************************************************************************/
+
+#logo 
+{
+    width: 500px;
+    height: 100px;
+    margin: 0 auto;
+    padding: 2em 0em;
+    text-transform: uppercase;
+}
+
+#logo h1
+{
+    letter-spacing: 0.10em;
+    font-size: 3em;
+}
+
+#logo p 
+{
+    letter-spacing: 0.10em;
+    color: #FFF;
+}
+
+#logo a 
+{
+    text-decoration: none;
+    color: #FFF;
+}
+/** WRAPPER */
+
+#wrapper {
+	background: darkblue url(images/bg01.png) repeat;
+}
+
+#footer-wrapper
+{
+	background: #0F0F0F;
+}
+
+.container {
+	width: 1200px;
+	margin: 0px auto;
+}
+
+.clearfix {
+	clear: both;
+}
+
+
+/*********************************************************************************/
+/* Wrappers                                                                      */
+/*********************************************************************************/
+
+#header-wrapper
+{
+	overflow: hidden;
+	background-size: 100%;
+	padding: 6em 0em 2em 0em;
+	background: #333333;
+}
+
+
+/*********************************************************************************/
+/* Header                                                                        */
+/*********************************************************************************/
+
+	#header 
+	{
+		position: relative;
+		overflow: hidden;
+		text-align: center;
+	}
+
+
+/*********************************************************************************/
+/* Tekst                                                                        */
+/*********************************************************************************/
+#tekst1
+{
+    color: white;
+
+}
+/*********************************************************************************/
+/* Banner                                                                        */
+/*********************************************************************************/
+
+#banner 
+{
+    overflow: hidden;
+    height: 330px;
+    background: url(images/pic01.jpg) no-repeat center;
+    background-size: cover;
+}
+/*********************************************************************************/
+/* button                                                                        */
+/*********************************************************************************/
+.button {
+    background-color: black; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    
+  }
+a:hover {
+    color: white ;
+  }
+a:link { text-decoration: none; }
+
+
+a:visited { text-decoration: none; }
+  
+  
+a:hover { text-decoration: none; }
+  
+  
+a:active { text-decoration: none; }

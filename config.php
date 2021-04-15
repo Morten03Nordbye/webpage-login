@@ -9,14 +9,11 @@ define('DB_NAME', 'nettside');
 /* Attempt to connect to MySQL database */
 $mysqli = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
 
-$debug = true;
+$debug = false;
  
 // Check connection
 if($mysqli === false){
     die("ERROR: Could not connect. " . $mysqli->connect_error);
 }
 
-/*else{
-    echo "It works!<br>" . var_dump($mysqli);
-}*/
 ?>
